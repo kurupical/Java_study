@@ -27,17 +27,21 @@ public class HashMap_Original<K,V> {
         this.isEnable[hashCode] = true;
     }
 
-    // setter
-
-
     // remove
+    public void remove(K key){
+        int hashCode = getHashCode(key);
+        this.isEnable[hashCode] = null;
+    }
 
     // test
-    public void get() {
-        System.out.println(this.key);
-        System.out.println(this.value);
-        System.out.println(this.key.getClass());
-        System.out.println(this.value.getClass());
+    public V get(K key) {
+        int hashCode = getHashCode(key);
+        if(this.isEnable[hashCode] != null){
+            return this.value[hashCode];
+        } else {
+            return null;
+        }
+
     }
 
     private void createHashMap(int size){
@@ -57,10 +61,16 @@ public class HashMap_Original<K,V> {
         /*
         HashCodeを取得する。キー衝突時は、HashCodeを+1する
          */
-        int hashCode = key.hashCode() % this.arraySize;
+
+        int hashCode;
+        if(key.hashCode() < 0){
+            hashCode = (key.hashCode() * -1) % this.arraySize;
+        } else {
+            hashCode = key.hashCode() % this.arraySize;
+        }
         while(true){
             if(this.isEnable[hashCode] != null){
-                if(this.key == key) {
+                if (this.key[hashCode].equals(key)) {
                     break;
                 } else {
                     hashCode++;
@@ -72,4 +82,3 @@ public class HashMap_Original<K,V> {
         return hashCode;
     }
 }
-
