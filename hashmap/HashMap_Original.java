@@ -45,5 +45,23 @@ public class HashMap_Original<K,V> {
 
         isEnable = new Boolean[size];
     }
+
+    private void getHashCode(K key){
+        /*
+        HashCodeを取得する。キー衝突時は、HashCodeを+1する
+         */
+        int hashCode = key.hashCode();
+        while(true){
+            if(isEnable[hashCode] = true){
+                if(this.key == key) {
+                    break;
+                } else {
+                    hashCode++;
+                }
+            } else {
+                break;
+            }
+        }
+    }
 }
 
