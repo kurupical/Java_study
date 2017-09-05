@@ -54,7 +54,8 @@ public class main {
         }
 
         // １００万回読み込みのためのデータ準備(keyが1-1000000のデータ作る)
-        hashmapStrStr = new HashMap_Original();
+        // ハッシュテーブル再生成のテストも込み
+        hashmapStrStr = new HashMap_Original(6000000);
         for(int i=0; i<1000000; i++){
             String str = Integer.toString(i);
             hashmapStrStr.put(str, str);
@@ -66,7 +67,10 @@ public class main {
             long end_time;
             Random rnd = new Random();
             String ran = Integer.toString(rnd.nextInt(1000000));
-            hashmapStrStr.get(ran);
+            String result = hashmapStrStr.get(ran);
+            if(result == null){
+                System.out.println("検索結果がNullはありえない！ ran=" + ran);
+            }
             if(i % 100000 == 0){
                 end_time = System.currentTimeMillis();
                 System.out.println("i=" + i + " => time:" + (end_time - start_time) + "ms");
@@ -99,7 +103,7 @@ public class main {
             long end_time;
             Random rnd = new Random();
             int ran = rnd.nextInt(1000000);
-            hashmapIntInt.get(ran);
+            int result = hashmapIntInt.get(ran);
             if(i % 100000 == 0){
                 end_time = System.currentTimeMillis();
                 System.out.println("i=" + i + " => time:" + (end_time - start_time) + "ms");
