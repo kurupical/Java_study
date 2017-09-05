@@ -3,15 +3,16 @@ package hashmap_test;
 public class HashMap_Original<K,V> {
 
     // HashMapのKey,Value,有効フラグ
+    private int DEFAULT_SIZE = 30000000;
+
     private K[] key;
     private V[] value;
     private Boolean[] isEnable;
-
-    private int defaultSize = 30000000;
+    private int arraySize;
 
 
     public HashMap_Original(){
-        createHashMap(defaultSize);
+        createHashMap(DEFAULT_SIZE);
     }
 
     public HashMap_Original(int size){
@@ -20,6 +21,10 @@ public class HashMap_Original<K,V> {
 
     // put
     public void put(K key, V value){
+        int hashCode = getHashCode(key);
+        this.key[hashCode] = key;
+        this.value[hashCode] = value;
+        this.isEnable[hashCode] = true;
     }
 
     // setter
@@ -38,21 +43,23 @@ public class HashMap_Original<K,V> {
     private void createHashMap(int size){
         @SuppressWarnings("unchecked")
         K[] k = (K[])new Object[size];
-        key = k;
+        this.key = k;
 
         V[] v = (V[])new Object[size];
-        value = v;
+        this.value = v;
 
-        isEnable = new Boolean[size];
+        this.isEnable = new Boolean[size];
+
+        this.arraySize = size;
     }
 
-    private void getHashCode(K key){
+    private int getHashCode(K key){
         /*
         HashCodeを取得する。キー衝突時は、HashCodeを+1する
          */
-        int hashCode = key.hashCode();
+        int hashCode = key.hashCode() % this.arraySize;
         while(true){
-            if(isEnable[hashCode] = true){
+            if(this.isEnable[hashCode] != null){
                 if(this.key == key) {
                     break;
                 } else {
@@ -62,6 +69,7 @@ public class HashMap_Original<K,V> {
                 break;
             }
         }
+        return hashCode;
     }
 }
 
